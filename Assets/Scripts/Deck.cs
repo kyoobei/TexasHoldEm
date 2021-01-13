@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System;
-[Serializable]
 public class Deck 
 {
     private readonly Random m_random = new Random();
@@ -8,6 +7,7 @@ public class Deck
     private Queue<Card> m_currentCardQueue = new Queue<Card>();
     private int m_numberOfSuits = 0;
     private int m_numberOfCardsToDeal = 0;
+    public Action OnFinishedShuffling;
     public void Build(int numberOfSuits = 4, int numberOfCardsPerSuit = 13)
     {
         m_numberOfSuits = numberOfSuits;
@@ -33,6 +33,7 @@ public class Deck
             m_currentCardQueue.Enqueue(m_currentCardList[randIndex]);
             m_currentCardList.RemoveAt(randIndex);
         }
+        OnFinishedShuffling?.Invoke();
     }
     public Card GetCardFromDeck()
     {
