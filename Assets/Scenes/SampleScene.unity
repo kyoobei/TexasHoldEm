@@ -1716,6 +1716,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dd68b67de3d511458f5f88dae989948, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_cardPooler: {fileID: 2136412153}
+  m_currentCardsAcquired: []
 --- !u!1 &1952899765
 GameObject:
   m_ObjectHideFlags: 0

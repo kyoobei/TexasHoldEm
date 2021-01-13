@@ -21,8 +21,8 @@ public class CardBehaviour : MonoBehaviour
     public void ReadyCard(Card card, Vector3 targetPosition)
     {
         m_cardDisplayBehaviour.UpdateCardDisplay(card.Value, (int)card.Suit);
-        m_targetPosition = targetPosition;
-        m_shouldMove = true;
+        // m_targetPosition = targetPosition;
+        // m_shouldMove = true;
     }
     public void ResetBehaviour()
     {

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 public class CardDisplayBehaviour : MonoBehaviour
 {
     [SerializeField] List<Material> m_suitsMaterialList = new List<Material>();
@@ -15,7 +15,7 @@ public class CardDisplayBehaviour : MonoBehaviour
         }
         else if(cardValue >= (int)HighCard.Jack)
         {
-            m_suitValueText.text = (((HighCard)cardSuit).ToString())[0].ToString();
+            m_suitValueText.text = (((HighCard)cardValue).ToString())[0].ToString();
         }
         m_suitRenderer.sharedMaterial = m_suitsMaterialList[cardSuit];
     }
