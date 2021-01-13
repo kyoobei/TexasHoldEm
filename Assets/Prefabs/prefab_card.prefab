@@ -127,6 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 5
+  m_cardDisplayBehaviour: {fileID: 7289324932077848627}
 --- !u!114 &7289324932077848627
 MonoBehaviour:
   m_ObjectHideFlags: 0
