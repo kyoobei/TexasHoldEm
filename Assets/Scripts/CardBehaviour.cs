@@ -17,12 +17,19 @@ public class CardBehaviour : MonoBehaviour
         {
             transform.position = Vector3.MoveTowards(transform.position, m_targetPosition, movementSpeed * Time.deltaTime);
         }
+        else if(distanceToTarget <= MIN_DISTANCE)
+        {
+            m_shouldMove = false;
+        }
     }
-    public void ReadyCard(Card card, Vector3 targetPosition)
+    public void UpdateDisplay(Card card)
     {
         m_cardDisplayBehaviour.UpdateCardDisplay(card.Value, (int)card.Suit);
-        // m_targetPosition = targetPosition;
-        // m_shouldMove = true;
+    }
+    public void MoveCard(Vector3 targetPosition)
+    {
+        m_targetPosition = targetPosition;
+        m_shouldMove = true;
     }
     public void ResetBehaviour()
     {

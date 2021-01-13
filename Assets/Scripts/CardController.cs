@@ -28,15 +28,16 @@ public class CardController : MonoBehaviour, IController
     {
         m_currentCardsAcquired.Clear();
         m_currentCardsAcquired = new List<Card>(m_deck.GetCardsFromDeck(TOTAL_CARDS));
-        PopulatePool();
+        UpdatePooledCards();
     }
-    private void PopulatePool()
+    private void UpdatePooledCards()
     {
         for(int i = 0; i < TOTAL_CARDS; i++)
         {
             GameObject cardObject = m_cardPooler.GetClone();
             CardBehaviour behaviour = cardObject.GetComponent<CardBehaviour>();
-            behaviour.ReadyCard(m_currentCardsAcquired[i], Vector3.zero);
+            behaviour.ResetBehaviour();
+            behaviour.UpdateDisplay(m_currentCardsAcquired[i]);
         }
     }
 }
