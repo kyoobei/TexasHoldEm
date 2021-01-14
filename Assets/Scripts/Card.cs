@@ -3,8 +3,8 @@ public class Card
 {
    public Suit Suit => suit;
    public int Value => value;
-   private Suit suit;
-   private int value;
+   public Suit suit; //should be private
+   public int value; //should be private
    public Card(Suit suit, int value)
    {
       this.suit = suit;

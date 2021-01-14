@@ -5,7 +5,11 @@ public class CardController : MonoBehaviour, IController
     [SerializeField] private List<CardDeal> m_cardDealersList = new List<CardDeal>();
     [SerializeField] private CardDeal m_middleTable = null;
     private Deck m_deck = new Deck();
-    private CardHand m_cardHand = new CardHand();
+
+    //for testing
+    [SerializeField] private List<Card> testerOwnHand = new List<Card>();
+    [SerializeField] private List<Card> testerMiddleTable = new List<Card>();
+    [SerializeField] private List<Card> testerCombine;
 
     private void Start()
     {
@@ -23,15 +27,21 @@ public class CardController : MonoBehaviour, IController
     {
         UpdateCardDealers();
     }
+    [ContextMenu("Test update")]
     private void UpdateCardDealers()
     {
-        //for players
-        for(int i = 0; i < m_cardDealersList.Count; i++)
-        {
-            m_cardDealersList[i].SetCardValue
-                (m_deck.GetCardsFromDeck(m_cardDealersList[i].NumberOfCardsToDeal));
-        }
-        //for the middle table
-        m_middleTable.SetCardValue(m_deck.GetCardsFromDeck(m_middleTable.NumberOfCardsToDeal));
+        
+        CardHand cardHand = new CardHand();
+        cardHand.GetHandType(testerOwnHand, testerMiddleTable);
+        testerCombine = new List<Card>(cardHand.m_combineCards);
+        //this one is working need to remove comment later
+        // //for players
+        // for(int i = 0; i < m_cardDealersList.Count; i++)
+        // {
+        //     m_cardDealersList[i].SetCardValue
+        //         (m_deck.GetCardsFromDeck(m_cardDealersList[i].NumberOfCardsToDeal));
+        // }
+        // //for the middle table
+        // m_middleTable.SetCardValue(m_deck.GetCardsFromDeck(m_middleTable.NumberOfCardsToDeal));
     }
 }

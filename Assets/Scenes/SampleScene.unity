@@ -1756,6 +1756,23 @@ MonoBehaviour:
   - {fileID: 2040243561}
   - {fileID: 342898191}
   m_middleTable: {fileID: 1144339447}
+  testerOwnHand:
+  - suit: 0
+    value: 2
+  - suit: 2
+    value: 13
+  testerMiddleTable:
+  - suit: 0
+    value: 1
+  - suit: 1
+    value: 9
+  - suit: 2
+    value: 12
+  - suit: 1
+    value: 11
+  - suit: 2
+    value: 10
+  testerCombine: []
 --- !u!1 &1952899765
 GameObject:
   m_ObjectHideFlags: 0
