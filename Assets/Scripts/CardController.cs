@@ -5,6 +5,8 @@ public class CardController : MonoBehaviour, IController
     [SerializeField] private List<CardDeal> m_cardDealersList = new List<CardDeal>();
     [SerializeField] private CardDeal m_middleTable = null;
     private Deck m_deck = new Deck();
+    private CardHand m_cardHand = new CardHand();
+
     private void Start()
     {
         m_deck.OnFinishedShuffling += FinishedShuffling;
