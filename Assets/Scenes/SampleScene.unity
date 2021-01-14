@@ -275,7 +275,7 @@ MonoBehaviour:
   m_cardPooler: {fileID: 2136412153}
   m_originPosition: {fileID: 769511590}
   m_numberOfCardsToDeal: 2
-  m_paddingBetweenCards: 0.5
+  m_paddingBetweenCards: 0.6
   m_currentCardsList: []
 --- !u!1 &438736524
 GameObject:
@@ -703,7 +703,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 769511589}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.3691953, y: 0.27, z: 3.35}
+  m_LocalPosition: {x: -0.3, y: 0.27, z: 3.35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1419273253}
@@ -1859,7 +1859,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1957138508}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.31, y: 0.27, z: -3.3}
+  m_LocalPosition: {x: -0.3, y: 0.27, z: -3.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 605284652}
@@ -2006,7 +2006,7 @@ MonoBehaviour:
   m_cardPooler: {fileID: 2136412153}
   m_originPosition: {fileID: 1957138509}
   m_numberOfCardsToDeal: 2
-  m_paddingBetweenCards: 0.5
+  m_paddingBetweenCards: 0.6
   m_currentCardsList: []
 --- !u!1 &2084791544
 GameObject:
