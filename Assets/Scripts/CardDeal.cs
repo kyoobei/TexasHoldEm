@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class CardDeal : MonoBehaviour
 {
-    public int NumberOfCardsToDeal => m_numberOfCardsToDeal;
     [SerializeField] private Pooler m_cardPooler = null;
     [SerializeField] private Transform m_originPosition = null;
     [SerializeField] private int m_numberOfCardsToDeal = 0;
     [SerializeField] private float m_paddingBetweenCards = 0.0f;
     [SerializeField] private List<Card> m_currentCardsList;
+    public int NumberOfCardsToDeal => m_numberOfCardsToDeal;
     public void SetCardValue(List<Card> cards)
     {
         m_currentCardsList.Clear();

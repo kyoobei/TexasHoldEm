@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3cf15ba0d127ea46bc1bf7d6124fa28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 5
+  movementSpeed: 7
   m_cardDisplayBehaviour: {fileID: 7289324932077848627}
 --- !u!114 &7289324932077848627
 MonoBehaviour:

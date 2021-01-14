@@ -2,10 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 public class CardController : MonoBehaviour, IController
 {
-    private const int TOTAL_CARDS = 9;
     [SerializeField] private List<CardDeal> m_cardDealersList = new List<CardDeal>();
     [SerializeField] private CardDeal m_middleTable = null;
-    // private List<Card> m_currentCardsAcquired = new List<Card>();
     private Deck m_deck = new Deck();
     private void Start()
     {
@@ -21,8 +19,6 @@ public class CardController : MonoBehaviour, IController
     }
     private void FinishedShuffling()
     {
-        // m_currentCardsAcquired.Clear();
-        // m_currentCardsAcquired = new List<Card>(m_deck.GetCardsFromDeck(TOTAL_CARDS));
         UpdateCardDealers();
     }
     private void UpdateCardDealers()
