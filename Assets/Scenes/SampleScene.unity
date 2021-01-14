@@ -275,6 +275,8 @@ MonoBehaviour:
   m_cardPooler: {fileID: 2136412153}
   m_originPosition: {fileID: 769511590}
   m_numberOfCardsToDeal: 2
+  m_paddingBetweenCards: 0.5
+  m_currentCardsList: []
 --- !u!1 &438736524
 GameObject:
   m_ObjectHideFlags: 0
@@ -1191,6 +1193,8 @@ MonoBehaviour:
   m_cardPooler: {fileID: 2136412153}
   m_originPosition: {fileID: 69689869}
   m_numberOfCardsToDeal: 5
+  m_paddingBetweenCards: 0.7
+  m_currentCardsList: []
 --- !u!1 &1419273252
 GameObject:
   m_ObjectHideFlags: 0
@@ -1748,8 +1752,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dd68b67de3d511458f5f88dae989948, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_cardPooler: {fileID: 2136412153}
-  m_currentCardsAcquired: []
+  m_cardDealersList:
+  - {fileID: 2040243561}
+  - {fileID: 342898191}
+  m_middleTable: {fileID: 1144339447}
 --- !u!1 &1952899765
 GameObject:
   m_ObjectHideFlags: 0
@@ -2000,6 +2006,8 @@ MonoBehaviour:
   m_cardPooler: {fileID: 2136412153}
   m_originPosition: {fileID: 1957138509}
   m_numberOfCardsToDeal: 2
+  m_paddingBetweenCards: 0.5
+  m_currentCardsList: []
 --- !u!1 &2084791544
 GameObject:
   m_ObjectHideFlags: 0
