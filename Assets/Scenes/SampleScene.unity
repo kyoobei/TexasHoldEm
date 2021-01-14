@@ -238,8 +238,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 342898190}
+  - component: {fileID: 342898191}
   m_Layer: 0
-  m_Name: Player2Dealer
+  m_Name: Player2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -259,6 +260,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &342898191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 342898189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37f36ae716521064bb4a44738971ef35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_cardPooler: {fileID: 2136412153}
+  m_originPosition: {fileID: 769511590}
+  m_numberOfCardsToDeal: 2
 --- !u!1 &438736524
 GameObject:
   m_ObjectHideFlags: 0
@@ -1138,8 +1154,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1144339446}
+  - component: {fileID: 1144339447}
   m_Layer: 0
-  m_Name: MiddleTableDealer
+  m_Name: MiddleTable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1159,6 +1176,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1144339447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1144339445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37f36ae716521064bb4a44738971ef35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_cardPooler: {fileID: 2136412153}
+  m_originPosition: {fileID: 69689869}
+  m_numberOfCardsToDeal: 5
 --- !u!1 &1419273252
 GameObject:
   m_ObjectHideFlags: 0
@@ -1931,8 +1963,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2040243560}
+  - component: {fileID: 2040243561}
   m_Layer: 0
-  m_Name: Player1Dealer
+  m_Name: Player1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1952,6 +1985,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2040243561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2040243559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37f36ae716521064bb4a44738971ef35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_cardPooler: {fileID: 2136412153}
+  m_originPosition: {fileID: 1957138509}
+  m_numberOfCardsToDeal: 2
 --- !u!1 &2084791544
 GameObject:
   m_ObjectHideFlags: 0
