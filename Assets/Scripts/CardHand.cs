@@ -10,6 +10,7 @@ public class CardHand
 
     public Hand GetHandType(List<Card> originalHand, List<Card> otherHand)
     {
+        winningCardList.Clear();
         m_combineCards = new List<Card>();
         m_originalCards = new List<Card>(originalHand);
         m_otherCards = new List<Card>(otherHand);
@@ -51,12 +52,7 @@ public class CardHand
             {
                 winningCardList = new List<Card>(cardPairsByValue);
                 return Hand.ONE_PAIR;
-            }
-            if(HasTwoPair(ref cardPairsByValue))
-            {
-                winningCardList = new List<Card>(cardPairsByValue);
-                return Hand.TWO_PAIR;
-            }
+            } 
             if(HasThreeOfAKind(ref cardPairsByValue))
             {
                 //recheck if there is a fullhouse going to be built
@@ -67,6 +63,11 @@ public class CardHand
                 }
                 winningCardList = new List<Card>(cardPairsByValue);
                 return Hand.THREE_OF_A_KIND;
+            }
+            if(HasTwoPair(ref cardPairsByValue))
+            {
+                winningCardList = new List<Card>(cardPairsByValue);
+                return Hand.TWO_PAIR;
             }
             if(HasFourOfAKind(ref cardPairsByValue))
             {
@@ -108,6 +109,7 @@ public class CardHand
                 }
             }
         }
+        Debug.Log("straight card count: " + straightCard.Count());
         if(straightCard.Count >= 5)
         {
             if(straightCard.Contains(m_originalCards[0]) || 
@@ -186,11 +188,11 @@ public class CardHand
             }
         }
         //remove pairs that are more than 5
-        if(cardPairs.Count() < 7)
+        if(cardPairs.Count() > 5)
         {
             RemoveCards(ref cardPairs, 4);
         }
-        else if(cardPairs.Count() >= 7)
+        else if(cardPairs.Count() == 7)
         {
             RemoveCards(ref cardPairs, 5);
         }
@@ -291,52 +293,50 @@ public class CardHand
     {
         List<Card> filler = new List<Card>();
         int remainingToFill = 5 - currentCardPairs.Count();
-        Debug.Log("here: " + remainingToFill);
         //for three of kind card if the holder hand has a pair
         if(remainingToFill == 2)
         {
-            if(m_originalCards[0].Value == m_originalCards[1].Value)
-            {
-                for(int i = 0; i < 2; i++)
+            if(!currentCardPairs.Contains(m_originalCards[0]) &&
+                !currentCardPairs.Contains(m_originalCards[1])){
+                if(m_originalCards[0].Value == m_originalCards[1].Value)
                 {
-                    Debug.Log("entered here heheh sadsadsa");
-                    filler.Add(m_originalCards[i]);
+                    for(int i = 0; i < 2; i++)
+                    {
+                        filler.Add(m_originalCards[i]);
+                    }
                 }
             }
         }
-        else
-        {
-            for(int i = 0; i < m_combineCards.Count(); i++)
-            { 
-                if(filler.Count() < remainingToFill) // - 1
+        for(int i = 0; i < m_combineCards.Count(); i++)
+        { 
+            if(filler.Count() < remainingToFill)
+            {
+                if(!currentCardPairs.Contains(m_combineCards[i]))
                 {
-                    if(!currentCardPairs.Contains(m_combineCards[i]))
+                    filler.Add(m_combineCards[i]);
+                }
+            }
+            if(filler.Count() == remainingToFill - 1)
+            {
+                if(!currentCardPairs.Contains(m_originalCards[0]))
+                {
+                    if(!currentCardPairs.Contains(m_originalCards[1]))
+                    {
+                        filler.Add(m_originalCards[0]);
+                    }
+                    else
                     {
                         filler.Add(m_combineCards[i]);
                     }
                 }
-                if(filler.Count() == remainingToFill - 1)
-                {
-                    if(!currentCardPairs.Contains(m_originalCards[0]))
-                    {
-                        if(!currentCardPairs.Contains(m_originalCards[1]))
-                        {
-                            filler.Add(m_originalCards[0]);
-                        }
-                        else
-                        {
-                            filler.Add(m_combineCards[i]);
-                        }
-                    }
-                }
-                if(filler.Count() >= remainingToFill)
-                {
-                    break;
-                }
             }
-            filler.Sort((handA, handB) => handA.Value.CompareTo(handB.Value));
-            filler.Reverse();
-            currentCardPairs.AddRange(filler);
+            if(filler.Count() >= remainingToFill)
+            {
+                break;
+            }
         }
+        filler.Sort((handA, handB) => handA.Value.CompareTo(handB.Value));
+        filler.Reverse();
+        currentCardPairs.AddRange(filler);
     }
 }
