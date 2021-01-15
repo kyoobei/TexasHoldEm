@@ -9,8 +9,8 @@ public class CardHand
     private List<Card> m_otherCards; // <-- community cards or cards in the middle table
     private int numberOfPairs = 0;
     private int numberOfTri = 0;
-    
-    public /*Hand*/void GetHandType(List<Card> originalHand, List<Card> otherHand)
+
+    public Hand GetHandType(List<Card> originalHand, List<Card> otherHand)
     {
         m_combineCards = new List<Card>();
         m_originalCards = new List<Card>(originalHand);
@@ -21,6 +21,30 @@ public class CardHand
         otherHand.ForEach(hand => m_combineCards.Add(hand));
         m_combineCards.Sort((handA, handB) => handA.Value.CompareTo(handB.Value));
         m_combineCards.Reverse();
+
+        var groupedCards = m_combineCards.GroupBy(cards => cards.Value);
+        List<Card> cardPairs = new List<Card>();
+        if(groupedCards.Count() > 0)
+        {
+            foreach(var group in groupedCards)
+            {
+                //check if a specific group of value has more than one
+                if(group.Count() >= 2)
+                {
+                    List<Card> currentCardGroup = group.ToList();
+                    cardPairs.AddRange(currentCardGroup);
+                }
+            }
+            //pairs exceed the number of max cards for winning hands
+            if(cardPairs.Count() > 5)
+            {
+                //maintain count to 4
+                for(int i = cardPairs.Count - 1; i >= 4; i--)
+                {
+                    cardPairs.RemoveAt(i);
+                }  
+            }
+        }
 
         #region WORKING STRAIGHT, FLUSH, ROYAL FLUSH IN ASCENDING
         // if(IsStraight())
@@ -43,40 +67,8 @@ public class CardHand
         //return Hand.HIGH_CARD;
         #endregion
 
-        HasPairs();
-        // //var pairs = from cards in m_combineCards where cards.Value
-        
-        //  var cardsByValue = m_combineCards.GroupBy(cards => cards.Value);
-        //  List<Card> temporaryCardGroups = new List<Card>();
-        // foreach(var groups in cardsByValue)
-        // {
-        //     if(groups.Count() == 2)
-        //     {
-                
-        //     }
-        //     if(groups.Count() == 3)
-        //     {
-
-        //     }   
-        //     if(groups.Count() == 4)
-        //     {
-
-        //     } 
-        // }
-
-        // // if(winningCardList.Count > 0)
-        // // {
-        // //     for(int i = 0; i < winningCardList.Count; i++)
-        // //     {
-        // //         Debug.Log("this is the winning: " + winningCardList[i].Suit + " " + winningCardList[i].Value);
-        // //     }
-        // // }
-        // // else
-        // // {
-        // //     Debug.Log("no winning list");
-        // // }
-        
-        
+        //HasPairs();
+        return Hand.HIGH_CARD;
     }
 
     #region WORKING FORMULA FOR STRAIGHT AND FLUSH (ASCENDING ORDER)
@@ -169,11 +161,20 @@ public class CardHand
         foreach(var group in groupedCards)
         {
             //check if a specific group of value has more than one
-            if(group.Count() > 1)
+            if(group.Count() >= 2)
             {
                 List<Card> currentCardGroup = group.ToList();
                 temporaryCardPairs.AddRange(currentCardGroup);
             }
+        }
+        //pairs exceed the number of max cards for winning hands
+        if(temporaryCardPairs.Count() > 5)
+        {
+            //maintain count to 4
+            for(int i = temporaryCardPairs.Count - 1; i >= 4; i--)
+            {
+                temporaryCardPairs.RemoveAt(i);
+            }  
         }
         //sort full house by number of pairs... trio and duo
         if(temporaryCardPairs.Count() == 5)
@@ -187,64 +188,61 @@ public class CardHand
                 List<Card> currentCardGroup = group.ToList();
                 temporaryCardPairs.AddRange(currentCardGroup);
             }
+            //currentHand = Hand.FULL_HOUSE;
         }
-        else
+        else if(temporaryCardPairs.Count() >= 2)
         {
-            //pairs exceed the number of max cards for winning hands
-            if(temporaryCardPairs.Count() > 5)
-            {
-                //maintain count to 4
-                for(int i = temporaryCardPairs.Count - 1; i >= 4; i--)
-                {
-                    temporaryCardPairs.RemoveAt(i);
-                }  
-            }
+            List<Card> fillerCard = new List<Card>();
+            int numberOfMissingCards = 5 - temporaryCardPairs.Count();
             //if current pairs doesnt compare even one card from the hole cards
             if(!temporaryCardPairs.Contains(m_originalCards[0]))
             {
-                Debug.Log("doesnt contain");
-                temporaryCardPairs.Add(m_originalCards[0]);
+                //temporaryCardPairs.Add(m_originalCards[0]);
+                fillerCard.Add(m_originalCards[0]);
             }
-            else if(temporaryCardPairs.Contains(m_originalCards[0]))
+            //since combine cards are sorted descending then you can get the next highest card
+            for(int i = 0; i < m_combineCards.Count(); i++)
             {
-                //since combine cards are sorted descending then you can get the next highest card
-                for(int i = 0; i < m_combineCards.Count(); i++)
+                if(fillerCard.Count() < numberOfMissingCards)
                 {
-                    if(temporaryCardPairs.Count() < 5)
+                    if(!temporaryCardPairs.Contains(m_combineCards[i]))
                     {
-                        if(!temporaryCardPairs.Contains(m_combineCards[i]))
-                        {
-                            temporaryCardPairs.Add(m_combineCards[i]);
-                        }
-                    }
-                    else if(temporaryCardPairs.Count() >= 5)
-                    {
-                        break;
+                        fillerCard.Add(m_combineCards[i]);
                     }
                 }
+                else if(fillerCard.Count() >= numberOfMissingCards)
+                {
+                    break;
+                }
             }
+            fillerCard.Sort((handA, handB) => handA.Value.CompareTo(handB.Value));
+            fillerCard.Reverse();
+            temporaryCardPairs.AddRange(fillerCard);
         }
         winningCardList = new List<Card>(temporaryCardPairs);
     }
-    // private bool IsPair()
-    // {
-    //     List<Card> temporaryPair = new List<Card>();
-    //     for(int i = 0; i < m_combineCards.Count; i++)
-    //     {
+    private bool HasOnePair()
+    {
+        var groupedCards = m_combineCards.GroupBy(cards => cards.Value);
+        List<Card> temporaryCardPairs = new List<Card>();
 
-    //     }
-    //     return false;
-    // }
-    // private bool IsTwoPair()
-    // {
-    //     return false;
-    // }
-    // private bool IsThreeOfKind()
-    // {
-    //     return false;
-    // }
-    // private bool IsFullHouse()
-    // {
-    //     return false;
-    // }
+    
+        return false;
+    }
+    private bool HasTwoPair()
+    {
+        return false;
+    }
+    private bool HasThreeOfAKind()
+    {
+        return false;
+    }
+    private bool HasFourOfAKind()
+    {
+        return false;
+    }
+    private bool HasFullHouse()
+    {
+        return false;
+    }
 }
