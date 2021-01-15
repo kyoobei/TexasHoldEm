@@ -1758,21 +1758,22 @@ MonoBehaviour:
   m_middleTable: {fileID: 1144339447}
   testerOwnHand:
   - suit: 2
-    value: 9
+    value: 2
   - suit: 1
-    value: 1
+    value: 8
   testerMiddleTable:
   - suit: 2
-    value: 2
+    value: 3
   - suit: 2
-    value: 11
+    value: 4
   - suit: 2
-    value: 12
+    value: 8
   - suit: 2
-    value: 13
+    value: 3
   - suit: 2
     value: 10
   testerCombine: []
+  testerWinningHand: []
 --- !u!1 &1952899765
 GameObject:
   m_ObjectHideFlags: 0
