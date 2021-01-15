@@ -131,7 +131,6 @@ public class CardHand
         }
         else if(winningCardList.Count <= 0)
         {
-            Debug.Log("in here");
             List<Card> temporaryFlushCards = new List<Card>();
             foreach(var groups in m_combineCards.GroupBy(card => card.Suit))
             {
@@ -217,8 +216,15 @@ public class CardHand
     {
         if(currentCardPairs.Count == 4)
         {
-            FillRemainingCardArea(ref currentCardPairs);
-            return true;
+            if(currentCardPairs.GroupBy(card => card.Value).Count() == 2)
+            {
+                FillRemainingCardArea(ref currentCardPairs);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         return false;
     }
@@ -235,8 +241,15 @@ public class CardHand
     {
         if(currentCardPairs.Count == 4)
         {
-            FillRemainingCardArea(ref currentCardPairs);
-            return true;
+            if(currentCardPairs.GroupBy(card => card.Value).Count() == 1)
+            {
+                FillRemainingCardArea(ref currentCardPairs);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         return false;
     }
@@ -278,13 +291,15 @@ public class CardHand
     {
         List<Card> filler = new List<Card>();
         int remainingToFill = 5 - currentCardPairs.Count();
+        Debug.Log("here: " + remainingToFill);
         //for three of kind card if the holder hand has a pair
         if(remainingToFill == 2)
         {
-            if(m_originalCards[0] == m_originalCards[1])
+            if(m_originalCards[0].Value == m_originalCards[1].Value)
             {
                 for(int i = 0; i < 2; i++)
                 {
+                    Debug.Log("entered here heheh sadsadsa");
                     filler.Add(m_originalCards[i]);
                 }
             }
@@ -293,14 +308,14 @@ public class CardHand
         {
             for(int i = 0; i < m_combineCards.Count(); i++)
             { 
-                if(filler.Count() < remainingToFill - 1)
+                if(filler.Count() < remainingToFill) // - 1
                 {
                     if(!currentCardPairs.Contains(m_combineCards[i]))
                     {
                         filler.Add(m_combineCards[i]);
                     }
                 }
-                else if(filler.Count() == remainingToFill - 1)
+                if(filler.Count() == remainingToFill - 1)
                 {
                     if(!currentCardPairs.Contains(m_originalCards[0]))
                     {
@@ -314,7 +329,7 @@ public class CardHand
                         }
                     }
                 }
-                else if(filler.Count() >= remainingToFill)
+                if(filler.Count() >= remainingToFill)
                 {
                     break;
                 }
