@@ -8,6 +8,28 @@ public class CardHand
     private List<Card> m_originalCards; // <-- original hole cards or cards in the hands of players
     private List<Card> m_otherCards; // <-- community cards or cards in the middle table
 
+    /*
+    *   NOTE TO SELF:
+        Should redo everything
+        Idea for straight:
+
+        1. Check original inputs index position
+        2. Max Count - index in absolute value
+        3. If will not "fit" on 5 then its not straight
+        4. If will "fit" on 5 then a possibility
+        5. Check if they are consecutive
+
+        For pairs and shit
+        1. group things first should be > 2
+        2. create a ref of integer to check number of pairings
+        3. dont base on count sometimes it fucks up
+
+        For filler
+        1. if there is pair... remove it on the List<>
+        2. Base the updated list for filling stuff
+    *
+    */
+
     public Hand GetHandType(List<Card> originalHand, List<Card> otherHand)
     {
         winningCardList.Clear();
@@ -55,7 +77,6 @@ public class CardHand
             } 
             if(HasThreeOfAKind(ref cardPairsByValue))
             {
-                //recheck if there is a fullhouse going to be built
                 if(HasFullHouse(ref cardPairsByValue))
                 {
                     winningCardList = new List<Card>(cardPairsByValue);
@@ -80,7 +101,6 @@ public class CardHand
     }
     private bool IsStraight()
     {
-        //TODO: if there will be same number but different suit there will be a problem or bug
         List<Card> straightCard = new List<Card>();
         for(int i = 0; i < m_combineCards.Count; i++)
         {
@@ -157,24 +177,6 @@ public class CardHand
         }
         return false;
     }
-    private void CheckForPairs()
-    {
-        List<Card> temporaryPairsHolder = new List<Card>();
-        int tempNumber = 0; 
-        for(int i = 0; i < m_combineCards.Count; i++)
-        {
-            for(int j = 0; j < m_combineCards.Count; j++)
-            {
-                if((m_combineCards[j].Suit != m_combineCards[i].Suit) &&
-                    (m_combineCards[j].Value == m_combineCards[i].Value))
-                {
-                    tempNumber++;
-                    
-                }
-            }
-            tempNumber = 0;
-        }
-    }
     private bool HasPairs(ref List<Card> cardPairs)
     {
         var groupedCardsByValue = m_combineCards.GroupBy(cards => cards.Value);
@@ -187,6 +189,7 @@ public class CardHand
                 cardPairs.AddRange(currentCardGroup);
             }
         }
+        Debug.Log("card pairs: " +  cardPairs.Count());
         //remove pairs that are more than 5
         if(cardPairs.Count() > 5)
         {
@@ -275,6 +278,7 @@ public class CardHand
             }
             else
             {
+                Debug.Log("here?");
                 RemoveCards(ref currentCardPairs, 3);
                 return false;
             }
