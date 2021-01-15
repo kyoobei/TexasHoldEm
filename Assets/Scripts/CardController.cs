@@ -11,6 +11,7 @@ public class CardController : MonoBehaviour, IController
     [SerializeField] private List<Card> testerMiddleTable = new List<Card>();
     [SerializeField] private List<Card> testerCombine;
     [SerializeField] private List<Card> testerWinningHand;
+    [SerializeField] private Hand testerHand;
 
     private void Start()
     {
@@ -33,9 +34,10 @@ public class CardController : MonoBehaviour, IController
     {
         
         CardHand cardHand = new CardHand();
-        cardHand.GetHandType(testerOwnHand, testerMiddleTable);
+        testerHand = cardHand.GetHandType(testerOwnHand, testerMiddleTable);
         testerCombine = new List<Card>(cardHand.m_combineCards);
         testerWinningHand = new List<Card>(cardHand.winningCardList);
+        
         //this one is working need to remove comment later
         // //for players
         // for(int i = 0; i < m_cardDealersList.Count; i++)

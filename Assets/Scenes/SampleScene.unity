@@ -1760,20 +1760,21 @@ MonoBehaviour:
   - suit: 2
     value: 2
   - suit: 1
-    value: 8
+    value: 4
   testerMiddleTable:
   - suit: 2
-    value: 4
+    value: 1
+  - suit: 2
+    value: 1
   - suit: 2
     value: 5
   - suit: 2
-    value: 3
+    value: 5
   - suit: 2
-    value: 7
-  - suit: 2
-    value: 11
+    value: 5
   testerCombine: []
   testerWinningHand: []
+  testerHand: 0
 --- !u!1 &1952899765
 GameObject:
   m_ObjectHideFlags: 0

@@ -22,29 +22,59 @@ public class CardHand
         m_combineCards.Sort((handA, handB) => handA.Value.CompareTo(handB.Value));
         m_combineCards.Reverse();
 
-        var groupedCards = m_combineCards.GroupBy(cards => cards.Value);
-        List<Card> cardPairs = new List<Card>();
-        if(groupedCards.Count() > 0)
+        List<Card> cardPairsByValue = new List<Card>();
+        if(HasPairs(ref cardPairsByValue))
         {
-            foreach(var group in groupedCards)
+            if(HasFullHouse(ref cardPairsByValue))
             {
-                //check if a specific group of value has more than one
-                if(group.Count() >= 2)
-                {
-                    List<Card> currentCardGroup = group.ToList();
-                    cardPairs.AddRange(currentCardGroup);
-                }
+                winningCardList = new List<Card>(cardPairsByValue);
+                return Hand.FULL_HOUSE;
             }
-            //pairs exceed the number of max cards for winning hands
-            if(cardPairs.Count() > 5)
+            if(HasOnePair(ref cardPairsByValue))
             {
-                //maintain count to 4
-                for(int i = cardPairs.Count - 1; i >= 4; i--)
-                {
-                    cardPairs.RemoveAt(i);
-                }  
+                winningCardList = new List<Card>(cardPairsByValue);
+                return Hand.ONE_PAIR;
+            }
+            if(HasTwoPair(ref cardPairsByValue))
+            {
+                winningCardList = new List<Card>(cardPairsByValue);
+                return Hand.TWO_PAIR;
+            }
+            if(HasThreeOfAKind(ref cardPairsByValue))
+            {
+                winningCardList = new List<Card>(cardPairsByValue);
+                return Hand.THREE_OF_A_KIND;
+            }
+            if(HasFourOfAKind(ref cardPairsByValue))
+            {
+                winningCardList = new List<Card>(cardPairsByValue);
+                return Hand.FOUR_OF_A_KIND;
             }
         }
+        // foreach(var group in groupedCardsByValue)
+        // {
+        //     //check if a specific group of value has more than one
+        //     if(group.Count() >= 2)
+        //     {
+        //         List<Card> currentCardGroup = group.ToList();
+        //         cardPairsByValue.AddRange(currentCardGroup);
+        //     }
+        // }
+        //pairs exceed the number of max cards for winning hands
+        // if(cardPairsByValue.Count() > 5)
+        // {
+        //     //maintain count to 4
+        //     for(int i = cardPairsByValue.Count - 1; i >= 4; i--)
+        //     {
+        //         cardPairsByValue.RemoveAt(i);
+        //     }  
+        // }
+        // //there are pairs in value
+        // if(cardPairsByValue.Count() > 0)
+        // {
+            
+        // }
+
 
         #region WORKING STRAIGHT, FLUSH, ROYAL FLUSH IN ASCENDING
         // if(IsStraight())
@@ -154,7 +184,7 @@ public class CardHand
     // }
     #endregion
 
-    private void HasPairs()
+    private void HasPairs2()
     {
         var groupedCards = m_combineCards.GroupBy(cards => cards.Value);
         List<Card> temporaryCardPairs = new List<Card>();
@@ -221,28 +251,111 @@ public class CardHand
         }
         winningCardList = new List<Card>(temporaryCardPairs);
     }
-    private bool HasOnePair()
+    private bool HasPairs(ref List<Card> cardPairs)
     {
-        var groupedCards = m_combineCards.GroupBy(cards => cards.Value);
-        List<Card> temporaryCardPairs = new List<Card>();
+        var groupedCardsByValue = m_combineCards.GroupBy(cards => cards.Value);
+        foreach(var group in groupedCardsByValue)
+        {
+            //check if a specific group of value has more than one
+            if(group.Count() >= 2)
+            {
+                List<Card> currentCardGroup = group.ToList();
+                cardPairs.AddRange(currentCardGroup);
+            }
+        }
+        //remove pairs that are more than 5
+        if(cardPairs.Count() > 5)
+        {
+            RemoveCards(ref cardPairs, 4);
+        }
+        if(cardPairs.Count() <= 0)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
 
-    
+    private bool HasOnePair(ref List<Card> currentCardPairs)
+    {
+        if(currentCardPairs.Count == 2)
+        {
+            FillRemainingCardArea(ref currentCardPairs);
+            return true;
+        }
         return false;
     }
-    private bool HasTwoPair()
+    private bool HasTwoPair(ref List<Card> currentCardPairs)
     {
+        if(currentCardPairs.Count == 4)
+        {
+            FillRemainingCardArea(ref currentCardPairs);
+            return true;
+        }
         return false;
     }
-    private bool HasThreeOfAKind()
+    private bool HasThreeOfAKind(ref List<Card> currentCardPairs)
     {
+        if(currentCardPairs.Count == 3)
+        {
+            FillRemainingCardArea(ref currentCardPairs);
+            return true;
+        }
         return false;
     }
-    private bool HasFourOfAKind()
+    private bool HasFourOfAKind(ref List<Card> currentCardPairs)
     {
+        if(currentCardPairs.Count == 4)
+        {
+            FillRemainingCardArea(ref currentCardPairs);
+            return true;
+        }
         return false;
     }
-    private bool HasFullHouse()
+    private bool HasFullHouse(ref List<Card> currentCardPairs)
     {
+        if(currentCardPairs.Count == 5)
+        {
+            if(currentCardPairs.Contains(m_originalCards[0]) 
+                || currentCardPairs.Contains(m_originalCards[1]))
+            {
+                List<Card> temporaryFullHouse = new List<Card>(currentCardPairs);
+                var sortedGroup = temporaryFullHouse.GroupBy(card => card.Value)
+                    .OrderByDescending(card => card.Count());
+                currentCardPairs.Clear();
+                foreach(var group in sortedGroup)
+                {
+                    List<Card> currentCardGroup = group.ToList();
+                    currentCardPairs.AddRange(currentCardGroup);
+                }
+                return true;
+            }
+            else
+            {
+                RemoveCards(ref currentCardPairs, 3);
+                return false;
+            }
+        }
         return false;
+    }
+    private void RemoveCards(ref List<Card> currentCards, int removeOffSet)
+    {
+        List<Card> temporaryHolder = new List<Card>(currentCards);
+        for(int i = temporaryHolder.Count - 1; i >= removeOffSet; i--)
+        {
+            currentCards.RemoveAt(i);
+        }
+    }
+    private void FillRemainingCardArea(ref List<Card> currentCardPairs)
+    {
+        List<Card> filler = new List<Card>();
+        //add the biggest number on holder hands
+        if(!currentCardPairs.Contains(m_originalCards[0]))
+        {
+
+        }
+        //return filler;
     }
 }
