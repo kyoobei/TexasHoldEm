@@ -27,6 +27,9 @@ public class CardHand
         For filler
         1. if there is pair... remove it on the List<>
         2. Base the updated list for filling stuff
+
+        Another Note:
+        1. Improve code by either adding more abstractions to it to impreess them
     *
     */
 
