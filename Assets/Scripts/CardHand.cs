@@ -8,30 +8,6 @@ public class CardHand
     private List<Card> m_originalCards; // <-- original hole cards or cards in the hands of players
     private List<Card> m_otherCards; // <-- community cards or cards in the middle table
 
-    /*
-    *   NOTE TO SELF:
-        Should redo everything
-        Idea for straight:
-
-        1. Check original inputs index position
-        2. Max Count - index in absolute value
-        3. If will not "fit" on 5 then its not straight
-        4. If will "fit" on 5 then a possibility
-        5. Check if they are consecutive
-
-        For pairs and shit
-        1. group things first should be > 2
-        2. create a ref of integer to check number of pairings
-        3. dont base on count sometimes it fucks up
-
-        For filler
-        1. if there is pair... remove it on the List<>
-        2. Base the updated list for filling stuff
-
-        Another Note:
-        1. Improve code by either adding more abstractions to it to impreess them
-    *
-    */
     private CardCheckingFactory cardCheckingFactory;
     public CardHand(CardCheckingFactory cardCheckingFactory)
     {

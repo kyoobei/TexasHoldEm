@@ -3,27 +3,6 @@ using System.Linq;
 using UnityEngine;
 public class CardBuilder
 {
-    /*
-        IDEA
-        1. Check for pairs
-        Possible result:
-        A. Check if pairs contain card at hand
-            If do:
-                - add to special card area
-        B. Check if card at hand is a pair
-            If do:
-                - add to special card area
-        2. Check for Same suits
-            If same suit is equal to 5
-                arrange from highest to lowest
-                check if it contains card at hand
-                check if consecutive
-                check if it starts at high card
-        3. Check for consecutive
-            Check both hands
-    *
-    *
-    */
     public List<Card> Build(List<Card> cardAtHand, List<Card> cardAtTable)
     {
         List<Card> cardToReturn = new List<Card>();
@@ -31,6 +10,7 @@ public class CardBuilder
 
         List<Card> consecutiveCardList = new List<Card>();
         List<Card> sameSuitCardList = new List<Card>();
+        List<Card> pairsCardList = new List<Card>();
 
         combinedCards.AddRange(cardAtHand);
         combinedCards.AddRange(cardAtTable);
@@ -39,16 +19,17 @@ public class CardBuilder
         
         CheckForSameSuit(cardAtHand, cardAtTable, ref sameSuitCardList);
         CheckForConsecutive(cardAtHand, combinedCards, ref consecutiveCardList);
+        CheckForPairs(cardAtHand, combinedCards, ref pairsCardList);
 
-        // if(consecutiveCardList.Count > 0)
-        // {
-        //     cardToReturn = new List<Card>(consecutiveCardList);
-        // }
         if(sameSuitCardList.Count > 0)
         {
-            Debug.Log("its working");
-            cardToReturn = new List<Card>(sameSuitCardList);
+            return sameSuitCardList;
         }
+        if(consecutiveCardList.Count > 0)
+        {
+            return consecutiveCardList;
+        }
+        
         return cardToReturn;
     }
     private void CheckForConsecutive(List<Card> originalHand, List<Card> cards, 
@@ -147,8 +128,31 @@ public class CardBuilder
         }
         sameSuitCards = new List<Card>(temporaryCardHolder);
     }
-    private void CheckForPairs(ref List<Card> pairsList)
+    private void CheckForPairs(List<Card> originalHand ,List<Card> combinedCards,
+        ref List<Card> pairsList)
     {
+        List<Card> temporaryPairsList = new List<Card>();
+        // var groupedCards = combinedCards.GroupBy(cards => cards.Value);
+        // foreach(var group in groupedCards)
+        // {
+        //     if(group.Count() >= 2)
+        //     {
+        //         temporaryPairsList.AddRange(group.ToList());
+        //     }
+        // }
+        if(originalHand[0].Value == originalHand[1].Value)
+        {
+            temporaryPairsList.AddRange(originalHand);
+        }
+        else
+        {
+            //look for pairs with original hands
+            var groupedCards = combinedCards.GroupBy(cards => cards.Value);
+            foreach(var groupElements in groupedCards)
+            {
+
+            }
+        }
         // var groupedCardsByValue = cardList.GroupBy(cards => cards.Value);
         // foreach(var group in groupedCardsByValue)
         // {
