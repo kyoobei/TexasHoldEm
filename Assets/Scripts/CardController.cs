@@ -5,7 +5,7 @@ public class CardController : MonoBehaviour, IController
     [SerializeField] private List<CardDeal> m_cardDealersList = new List<CardDeal>();
     [SerializeField] private CardDeal m_middleTable = null;
     private Deck m_deck = new Deck();
-
+    private CardCheckingFactory cardCheckingFactory = new CardCheckingFactory();
     //for testing
     [SerializeField] private List<Card> testerOwnHand = new List<Card>();
     [SerializeField] private List<Card> testerMiddleTable = new List<Card>();
@@ -33,7 +33,7 @@ public class CardController : MonoBehaviour, IController
     private void UpdateCardDealers()
     {
         
-        CardHand cardHand = new CardHand();
+        CardHand cardHand = new CardHand(cardCheckingFactory);
         testerHand = cardHand.GetHandType(testerOwnHand, testerMiddleTable);
         testerCombine = new List<Card>(cardHand.m_combineCards);
         testerWinningHand = new List<Card>(cardHand.winningCardList);

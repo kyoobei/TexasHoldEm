@@ -1760,16 +1760,16 @@ MonoBehaviour:
   - suit: 3
     value: 4
   - suit: 2
-    value: 1
+    value: 6
   testerMiddleTable:
   - suit: 2
     value: 3
   - suit: 1
     value: 3
   - suit: 0
-    value: 3
+    value: 6
   - suit: 3
-    value: 10
+    value: 4
   - suit: 2
     value: 10
   testerCombine: []
