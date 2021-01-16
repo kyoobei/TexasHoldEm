@@ -1758,9 +1758,9 @@ MonoBehaviour:
   m_middleTable: {fileID: 1144339447}
   testerOwnHand:
   - suit: 3
-    value: 2
+    value: 9
   - suit: 2
-    value: 6
+    value: 10
   testerMiddleTable:
   - suit: 2
     value: 10
@@ -1771,7 +1771,7 @@ MonoBehaviour:
   - suit: 2
     value: 7
   - suit: 2
-    value: 5
+    value: 10
   testerCombine: []
   testerWinningHand: []
   testerHand: 0
