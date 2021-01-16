@@ -29,7 +29,9 @@ public class CardBuilder
     {
         List<Card> cardToReturn = new List<Card>();
         List<Card> combinedCards = new List<Card>();
+
         List<Card> consecutiveCardList = new List<Card>();
+        List<Card> sameSuitCardList = new List<Card>();
 
         originalHand.Clear();
         originalHand = cardAtHand;
@@ -39,16 +41,24 @@ public class CardBuilder
         
         ChangeListToDescendingByValue(ref combinedCards);
         
+        CheckForSameSuit(cardAtHand, cardAtTable, ref sameSuitCardList);
         CheckForConsecutive(combinedCards, ref consecutiveCardList);
 
-        if(consecutiveCardList.Count == 0)
+        // if(consecutiveCardList.Count > 0)
+        // {
+        //     cardToReturn = new List<Card>(consecutiveCardList);
+        // }
+        if(sameSuitCardList.Count > 0)
         {
-            Debug.Log("its not consecutive");
+            Debug.Log("its working");
+            cardToReturn = new List<Card>(sameSuitCardList);
         }
-        else
-        {
-            Debug.Log("there is consecutive parts here");
-        }
+
+
+        // if
+        // {
+        //     Debug.Log("there is consecutive parts here");
+        // }
         // if(HasSameSuits(ref combinedCards))
         // {
         //     Debug.Log("same suits");
@@ -127,7 +137,7 @@ public class CardBuilder
         // cardBuildHolder.AddRange(cardAtTable);
 
         //for testing remove this later on
-        cardToReturn = new List<Card>(consecutiveCardList);
+        //cardToReturn = new List<Card>(consecutiveCardList);
 
         return cardToReturn;
     }
@@ -183,6 +193,48 @@ public class CardBuilder
             }
         }
         consecutiveCards = new List<Card>(temporaryHolder);
+    }
+    private void CheckForSameSuit(List<Card> cardAtHand, List<Card> cardsOnTable, 
+        ref List<Card> sameSuitCards)
+    {
+        List<Card> temporaryCardHolder = new List<Card>();
+        List<Card> hands = new List<Card>(cardAtHand);
+        List<Card> table = new List<Card>(cardsOnTable);
+        
+        ChangeListToDescendingByValue(ref hands);
+        ChangeListToDescendingByValue(ref table);
+
+        for(int i = 0; i < hands.Count; i++)
+        {
+            temporaryCardHolder.Add(hands[i]);
+            for(int j = 0; j < table.Count; j++)
+            {
+                if(temporaryCardHolder.Count != 5)
+                {
+                    if(hands[i].Suit == table[j].Suit)
+                    {
+                        temporaryCardHolder.Add(table[j]);
+                    }
+                }
+                else if(temporaryCardHolder.Count == 5)
+                {
+                    break;
+                }
+            }
+            if(temporaryCardHolder.Count == 5)
+            {
+                break;
+            }
+            else if(temporaryCardHolder.Count < 5)
+            {
+                temporaryCardHolder.Clear();
+            }
+        }
+        if(temporaryCardHolder.Count > 0)
+        {
+            ChangeListToDescendingByValue(ref temporaryCardHolder);
+        }
+        sameSuitCards = new List<Card>(temporaryCardHolder);
     }
     // private bool IsConsecutive(Card cardToCheck, List<Card> cards)
     // {
