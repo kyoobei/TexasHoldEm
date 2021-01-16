@@ -24,7 +24,6 @@ public class CardBuilder
     *
     *
     */
-    private List<Card> originalHand = new List<Card>();
     public List<Card> Build(List<Card> cardAtHand, List<Card> cardAtTable)
     {
         List<Card> cardToReturn = new List<Card>();
@@ -33,16 +32,13 @@ public class CardBuilder
         List<Card> consecutiveCardList = new List<Card>();
         List<Card> sameSuitCardList = new List<Card>();
 
-        originalHand.Clear();
-        originalHand = cardAtHand;
-
         combinedCards.AddRange(cardAtHand);
         combinedCards.AddRange(cardAtTable);
         
         ChangeListToDescendingByValue(ref combinedCards);
         
         CheckForSameSuit(cardAtHand, cardAtTable, ref sameSuitCardList);
-        CheckForConsecutive(combinedCards, ref consecutiveCardList);
+        CheckForConsecutive(cardAtHand, combinedCards, ref consecutiveCardList);
 
         // if(consecutiveCardList.Count > 0)
         // {
@@ -53,95 +49,10 @@ public class CardBuilder
             Debug.Log("its working");
             cardToReturn = new List<Card>(sameSuitCardList);
         }
-
-
-        // if
-        // {
-        //     Debug.Log("there is consecutive parts here");
-        // }
-        // if(HasSameSuits(ref combinedCards))
-        // {
-        //     Debug.Log("same suits");
-        // }
-
-        // if(IsConsecutive(cardAtHand[0], combinedCards))
-        // {
-        //     Debug.Log("consecutive on 0 card");
-        // }
-        // else
-        // {
-        //     Debug.Log("not consecutive on 0 card");
-        // }
-        // if(IsConsecutive(cardAtHand[1], combinedCards))
-        // {
-        //     Debug.Log("consecutive on 1 card");
-        // }
-        // else
-        // {
-        //      Debug.Log("not consecutive on 1 card");
-        // }
-
-        // if(HasPairs(ref combinedCards))
-        // {
-        //     ChangeListToDescendingByPairs(ref combinedCards);
-        // }
-        // else if(HasSameSuits(ref combinedCards))
-        // {
-        //     ChangeListToDescendingBySuit(ref combinedCards);
-        // }
-
-        // ChangeListToDescendingByValue(ref combinedCards);
-
-        // if(HasSameValueInList(cardAtHand[0], cardAtTable) || 
-        //     HasSameValueInList(cardAtHand[1], cardAtTable))
-        // {
-        //     Debug.Log("there are pairs");
-        //     ChangeListToDescendingByPairs(ref combinedCards);
-        //     if(cardAtHand[0].Value == cardAtHand[1].Value)
-        //     {
-        //         //they are a pair
-        //         Debug.Log("hands are pairs");
-        //     }
-        //     else
-        //     {
-
-        //     }
-        //     // List<Card> pairHolder = new List<Card>();
-        //     // var pairInGroups = combinedCards.GroupBy(group => group.Value);
-        //     // foreach(var pair in pairInGroups)
-        //     // {
-        //     //     pairHolder.AddRange(pair.ToList());
-        //     // }
-        //     // ChangeListToDescendingByValue(ref pairHolder);
-        //     //check if within the new pairs is the card at hand
-            
-        // }
-        // else
-        // {
-        //     Debug.Log("Has no pair in the table");
-        //     ChangeListToDescendingByValue(ref combinedCards);
-        // }
-
-        // bool cardOneAtTable = false;
-        // cardAtTable.ForEach(card =>{
-        //     if(card.Value == cardAtHand[0].Value)
-        //         cardOneAtTable = true;
-        // });
-        // Debug.Log("at table[0]: " + cardOneAtTable + 
-        // " at table[1]: " + cardAtTable.Contains(cardAtHand[1]));
-        // List<Card> combinedCard = new List<Card>();
-        // combinedCard.AddRange(cardAtHand);
-        // combinedCard.AddRange(cardAtTable);
-        
-        // cardBuildHolder.AddRange(cardAtHand);
-        // cardBuildHolder.AddRange(cardAtTable);
-
-        //for testing remove this later on
-        //cardToReturn = new List<Card>(consecutiveCardList);
-
         return cardToReturn;
     }
-    private void CheckForConsecutive(List<Card> cards, ref List<Card> consecutiveCards)
+    private void CheckForConsecutive(List<Card> originalHand, List<Card> cards, 
+        ref List<Card> consecutiveCards)
     {
         List<Card> temporaryHolder = new List<Card>();
         int targetCount = 5;
@@ -236,93 +147,22 @@ public class CardBuilder
         }
         sameSuitCards = new List<Card>(temporaryCardHolder);
     }
-    // private bool IsConsecutive(Card cardToCheck, List<Card> cards)
-    // {
-    //     int currentIndex = cards.IndexOf(cardToCheck);
-    //     Debug.Log("current index:  " + currentIndex +  " " + cardToCheck.Value);
-    //     int counter = 0;
-    //     if(currentIndex >= 5)
-    //     {
-    //         //check array downwards
-    //         for(int i = currentIndex; i <= 0; i--)
-    //         {
-    //             if(currentIndex != 0)
-    //             {
-    //                 if((cards[i].Value + 1) == cards[i-1].Value)
-    //                 {
-    //                     counter++;
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     else if(currentIndex < 5)
-    //     {
-    //         Debug.Log("less than 5: " + cardToCheck.Value);
-    //         //start counting from
-    //         for(int i = 0; i < 5; i++)
-    //         {
-    //             if(i != currentIndex-1)
-    //             {
-    //                 if((cards[i].Value - 1) == cards[i + 1].Value)
-    //                 {
-    //                     counter++;
-    //                 }
-    //             }
-    //         } 
-    //     }
-    //     Debug.Log("counter: " + counter);
-    //     if(counter >= 5)
-    //     {
-    //         return true;
-    //     }
-    //     return false;
-    // }
-    private bool HasPairs(ref List<Card> cardList)
+    private void CheckForPairs(ref List<Card> pairsList)
     {
-        var groupedCardsByValue = cardList.GroupBy(cards => cards.Value);
-        foreach(var group in groupedCardsByValue)
-        {
-            //check if a specific group of value has more than one
-            if(group.Count() >= 2)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-    private bool HasSameSuits(ref List<Card> cardList)
-    {
-        var groupedCardsByValue = cardList.GroupBy(cards => cards.Suit);
-        foreach(var group in groupedCardsByValue)
-        {
-            // //check if a specific group of value has more than one
-            // if(group.Count() >= 5 && (group.Contains(m_originalCards[0]) ||
-            //     group.Contains(m_originalCards[1])))
-            // {
-            //     return true;
-            // }
-        }
-        return false;
-    }
-    private bool HasSameValueInList(Card cardToCheck, List<Card> cardsList)
-    {
-        for(int i = 0; i < cardsList.Count - 1; i++)
-        {
-            if(cardsList[i].Value == cardToCheck.Value)
-            {
-                return true;
-            }
-        }
-        return false;
+        // var groupedCardsByValue = cardList.GroupBy(cards => cards.Value);
+        // foreach(var group in groupedCardsByValue)
+        // {
+        //     //check if a specific group of value has more than one
+        //     if(group.Count() >= 2)
+        //     {
+        //         return true;
+        //     }
+        // }
+        // return false;
     }
     private void ChangeListToDescendingByValue(ref List<Card> cardsList)
     {
         cardsList.Sort((cardsA, cardsB) => cardsA.Value.CompareTo(cardsB.Value));
-        cardsList.Reverse();
-    }
-    private void ChangeListToDescendingBySuit(ref List<Card> cardsList)
-    {
-        cardsList.Sort((cardsA, cardsB) => cardsA.Value.CompareTo(cardsB.Suit));
         cardsList.Reverse();
     }
     private void ChangeListToDescendingByPairs(ref List<Card> cardsList)
