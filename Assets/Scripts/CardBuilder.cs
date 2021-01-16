@@ -36,7 +36,7 @@ public class CardBuilder
             Debug.Log("goes in pairs");
             return pairsCardList;
         }
-        Debug.Log("goes in default");
+        //Debug.Log("goes in default");
         return cardToReturn;
     }
     private void CheckForConsecutive(List<Card> originalHand, List<Card> cards, 
@@ -157,7 +157,7 @@ public class CardBuilder
         }
         if(bigPairList.Count > 0)
         {
-            for(int i = 0; i < bigPairList.Count - 1; i++)
+            for(int i = 0; i < bigPairList.Count; i++) //-1
             {
                 temporaryHolder.Remove(bigPairList[i]); 
             }
@@ -165,6 +165,14 @@ public class CardBuilder
         }
         ChangeListToDescendingByValue(ref smallPairList);
         ChangeListToDescendingByPairs(ref smallPairList);
+
+        // for(int i = 0; i < smallPairList.Count; i++)
+        // {
+        //     Debug.Log("value: " + smallPairList[i].Value + " Suit: " 
+        //         + smallPairList[i].Suit);
+        // }
+        
+        //TODO: do some foreac
 
         if(smallPairList.Count > 0)
         {
@@ -177,27 +185,29 @@ public class CardBuilder
             {
                 return;
             }
-            for(int i = 0; i < originalHand.Count - 1; i++)
+            Debug.Log("small pair count: " + smallPairList.Count);
+            for(int i = 0; i < originalHand.Count; i++)
             {
-                for(int j = 0; j < smallPairList.Count - 1; j++)
+                for(int j = 0; j < smallPairList.Count; j++)
                 {
-                    Debug.Log("adding: " + smallPairList[j].Value +
-                        " " + smallPairList[j].Suit);
-                    // if(pairsList.Count == 5)
-                    // {
-                    //     break;
-                    // }
-                    // if(smallPairList[j].Value == originalHand[i].Value)
-                    // {
-                    //     Debug.Log("should be added");
-                    //     if(!pairsList.Contains(smallPairList[j]))
-                    //     {
-                    //         Debug.Log("adding: " + smallPairList[j].Value +
-                    //          " " + smallPairList[j].Suit);
-                    //         //temporaryHolder.Remove(smallPairList[j]);
-                    //         pairsList.Add(smallPairList[j]);
-                    //     }
-                    // }
+                    // Debug.Log("j : " + j);
+                    // Debug.Log("adding: " + smallPairList[j].Value +
+                    //     " " + smallPairList[j].Suit);
+                    if(pairsList.Count == 5)
+                    {
+                        break;
+                    }
+                    if(smallPairList[j].Value == originalHand[i].Value)
+                    {
+                        //Debug.Log("should be added");
+                        if(!pairsList.Contains(smallPairList[j]))
+                        {
+                            Debug.Log("adding: " + smallPairList[j].Value +
+                             " " + smallPairList[j].Suit);
+                            //temporaryHolder.Remove(smallPairList[j]);
+                            pairsList.Add(smallPairList[j]);
+                        }
+                    }
                 }
                 if(pairsList.Count == 5)
                 {
