@@ -23,17 +23,20 @@ public class CardBuilder
 
         if(sameSuitCardList.Count > 0)
         {
+            Debug.Log("goes in same suit");
             return sameSuitCardList;
         }
         if(consecutiveCardList.Count > 0)
         {
+            Debug.Log("goes in consecutive");
             return consecutiveCardList;
         }
         if(pairsCardList.Count > 0)
         {
+            Debug.Log("goes in pairs");
             return pairsCardList;
         }
-        
+        Debug.Log("goes in default");
         return cardToReturn;
     }
     private void CheckForConsecutive(List<Card> originalHand, List<Card> cards, 
@@ -136,18 +139,19 @@ public class CardBuilder
         ref List<Card> pairsList)
     {
         List<Card> temporaryHolder = new List<Card>(combinedCards);
-        List<Card> smallPairList = new List<Card>();
+        // List<Card> smallPairList = new List<Card>();
         List<Card> bigPairList = new List<Card>();
         foreach(var group in temporaryHolder.GroupBy(cards => cards.Value))
         {
-            if(group.Count() == 2)
-            {
-                if(smallPairList.Count < 4)
-                {
-                    smallPairList.AddRange(group.ToList());
-                }
-            }
-            else if(group.Count() > 2)
+            // if(group.Count() == 2)
+            // {
+            //     if(smallPairList.Count < 4)
+            //     {
+            //         smallPairList.AddRange(group.ToList());
+            //     }
+            // }
+            //  else if(group.Count() > 2)
+            if(group.Count() >= 3)
             {
                 if(bigPairList.Count == 0)
                 {
@@ -155,70 +159,111 @@ public class CardBuilder
                 }
             }
         }
-        //there is a big pair 
+        Debug.Log("pair list count: " + pairsList.Count);
+        Debug.Log("big pair count: " + bigPairList.Count);
         if(bigPairList.Count > 0)
         {
-            //remove current list to temporary list
-            for(int i = 0; i < bigPairList.Count; i++)
+            for(int i = 0; i < bigPairList.Count - 1; i++)
             {
-                temporaryHolder.Remove(bigPairList[0]);
+                temporaryHolder.Remove(bigPairList[i]);
+                
             }
             pairsList.AddRange(bigPairList);
-            if(!bigPairList.Contains(originalHand[0]) 
-                && !bigPairList.Contains(originalHand[1]))
-            {
-                Debug.Log("doesnt original hands");
-                if(originalHand[0] == originalHand[1])
-                {
-                    for(int i = pairsList.Count - 1; i < 5; i++)
-                    {
-                        temporaryHolder.Remove(originalHand[i]);
-                        pairsList.Add(originalHand[i]);
-                    }
-                }
-                else
-                {
-                    temporaryHolder.Remove(originalHand[0]);
-                    pairsList.Add(originalHand[0]);
-                }
-            }
+            Debug.Log("temp count: " + temporaryHolder.Count);
+
+            // if(!bigPairList.Contains(originalHand[0]) &&
+            //     !bigPairList.Contains(originalHand[1]))
+            // {
+                
+            // }
+            // else
+            // {
+            //     Debug.Log("has atleast a pair");
+            // }
+        }
+        Debug.Log("pair list count: " + pairsList.Count);
+
+        // ChangeListToDescendingByValue(ref temporaryHolder);
+        // ChangeListToDescendingByPairs(ref temporaryHolder);
+
+        // for(int i = pairsList.Count - 1; i < 5; i++)
+        // {
+        //     pairsList.Add(temporaryHolder[i]);
+        // }
+
+        // ChangeListToDescendingByPairs(ref pairsList);
+
+        // if(!pairsList.Contains(originalHand[0]) &&
+        //     !pairsList.Contains(originalHand[1]))
+        // {
+        //     pairsList.RemoveAt(pairsList.Count - 1);
+        //     pairsList.Add(originalHand[0]);
+        // }
+
+        // //there is a big pair 
+        // if(bigPairList.Count > 0)
+        // {
+        //     //remove current list to temporary list
+        //     for(int i = 0; i < bigPairList.Count; i++)
+        //     {
+        //         temporaryHolder.Remove(bigPairList[0]);
+        //     }
+        //     pairsList.AddRange(bigPairList);
+        //     if(!bigPairList.Contains(originalHand[0]) 
+        //         && !bigPairList.Contains(originalHand[1]))
+        //     {
+        //         Debug.Log("doesnt original hands");
+        //         if(originalHand[0] == originalHand[1])
+        //         {
+        //             for(int i = pairsList.Count - 1; i < 5; i++)
+        //             {
+        //                 temporaryHolder.Remove(originalHand[i]);
+        //                 pairsList.Add(originalHand[i]);
+        //             }
+        //         }
+        //         else
+        //         {
+        //             temporaryHolder.Remove(originalHand[0]);
+        //             pairsList.Add(originalHand[0]);
+        //         }
+        //     }
            
-        }
-        else if(bigPairList.Count == 0)
-        {
-            //remove current list to temporary list
-            for(int i = 0; i < smallPairList.Count; i++)
-            {
-                temporaryHolder.Remove(smallPairList[i]);
-            }
-            pairsList.AddRange(smallPairList);
-            if(!smallPairList.Contains(originalHand[0]) 
-                && !smallPairList.Contains(originalHand[1]))
-            {
-                if(originalHand[0] == originalHand[1])
-                {
-                    for(int i = pairsList.Count - 1; i < 5; i++)
-                    {
-                        temporaryHolder.Remove(originalHand[i]);
-                        pairsList.Add(originalHand[i]);
-                    }
-                }
-                else
-                {
-                    temporaryHolder.Remove(originalHand[0]);
-                    pairsList.Add(originalHand[0]);
-                }
-            }
-        }
-        //filler
-        for(int i = pairsList.Count - 1; i < 5; i++)
-        {
-            pairsList.Add(temporaryHolder[0]);
-            temporaryHolder.Remove(temporaryHolder[0]);
-            continue;
-        }
-        ChangeListToDescendingByValue(ref pairsList);
-        ChangeListToDescendingByPairs(ref pairsList);
+        // }
+        // else if(bigPairList.Count == 0)
+        // {
+        //     //remove current list to temporary list
+        //     for(int i = 0; i < smallPairList.Count; i++)
+        //     {
+        //         temporaryHolder.Remove(smallPairList[i]);
+        //     }
+        //     pairsList.AddRange(smallPairList);
+        //     if(!smallPairList.Contains(originalHand[0]) 
+        //         && !smallPairList.Contains(originalHand[1]))
+        //     {
+        //         if(originalHand[0] == originalHand[1])
+        //         {
+        //             for(int i = pairsList.Count - 1; i < 5; i++)
+        //             {
+        //                 temporaryHolder.Remove(originalHand[i]);
+        //                 pairsList.Add(originalHand[i]);
+        //             }
+        //         }
+        //         else
+        //         {
+        //             temporaryHolder.Remove(originalHand[0]);
+        //             pairsList.Add(originalHand[0]);
+        //         }
+        //     }
+        // }
+        // //filler
+        // for(int i = pairsList.Count - 1; i < 5; i++)
+        // {
+        //     pairsList.Add(temporaryHolder[0]);
+        //     temporaryHolder.Remove(temporaryHolder[0]);
+        //     continue;
+        // }
+        // ChangeListToDescendingByValue(ref pairsList);
+        // ChangeListToDescendingByPairs(ref pairsList);
     }
     private void ChangeListToDescendingByValue(ref List<Card> cardsList)
     {
