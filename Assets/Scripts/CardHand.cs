@@ -7,16 +7,16 @@ public class CardHand
     public List<Card> winningCardList = new List<Card>(); // <-- will be used for comparison to other cards.. public for now
     private List<Card> m_originalCards; // <-- original hole cards or cards in the hands of players
     private List<Card> m_otherCards; // <-- community cards or cards in the middle table
-
-    private CardCheckingFactory cardCheckingFactory;
-    public CardHand(CardCheckingFactory cardCheckingFactory)
+    private CardBuilder m_cardBuilder;
+    private CardCheckingFactory m_cardCheckingFactory;
+    public CardHand(CardCheckingFactory cardCheckingFactory, CardBuilder cardBuilder)
     {
-        this.cardCheckingFactory = cardCheckingFactory;
+        m_cardBuilder = cardBuilder;
+        m_cardCheckingFactory = cardCheckingFactory;
     }
     public Hand GetHandType(List<Card> cardAtHand, List<Card> cardAtTable)
     {
-        CardBuilder cardBuilder = new CardBuilder(); // <-- should be moved later
-        m_combineCards = cardBuilder.Build(cardAtHand, cardAtTable);
+        m_combineCards = m_cardBuilder.Build(cardAtHand, cardAtTable);
         // winningCardList.Clear();
         // m_combineCards = new List<Card>();
         // m_originalCards = new List<Card>(originalHand);

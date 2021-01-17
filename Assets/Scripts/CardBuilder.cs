@@ -65,16 +65,7 @@ public class CardBuilder
                 }
                 else if(j == targetCount - 1)
                 {
-                    if(temporaryHolder.Contains(originalHand[0]) ||
-                        temporaryHolder.Contains(originalHand[1]))
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        temporaryHolder.Clear();
-                        break;
-                    }
+                    break;
                 }
             }
             if(temporaryHolder.Count == 0)
