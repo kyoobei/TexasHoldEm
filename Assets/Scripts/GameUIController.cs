@@ -19,7 +19,7 @@ public class GameUIController : MonoBehaviour, IController
         for(int i = 0; i < txtPlayerLogs.Count; i++)
         {
             string playerHandsName = playerHands[i].ToString();
-            playerHandsName.Replace("_", " ");
+            playerHandsName = playerHandsName.Replace("_", " ");
             txtPlayerLogs[i].text = string.Format($"{playerName[i]} has {playerHandsName}");
         }
     }
