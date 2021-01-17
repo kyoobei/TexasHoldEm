@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 public class CardBuilder
 {
     public List<Card> Build(List<Card> cardAtHand, List<Card> cardAtTable)
@@ -19,24 +18,20 @@ public class CardBuilder
         
         CheckForSameSuit(cardAtHand, cardAtTable, ref sameSuitCardList);
         CheckForConsecutive(cardAtHand, combinedCards, ref consecutiveCardList);
-        CheckForPairs(cardAtHand, combinedCards, ref pairsCardList);
+        CheckForPairs(combinedCards, ref pairsCardList);
 
         if(sameSuitCardList.Count > 0)
         {
-            Debug.Log("goes in same suit");
             return sameSuitCardList;
         }
         if(consecutiveCardList.Count > 0)
         {
-            Debug.Log("goes in consecutive");
             return consecutiveCardList;
         }
         if(pairsCardList.Count > 0)
         {
-            Debug.Log("goes in pairs");
             return pairsCardList;
         }
-        //Debug.Log("goes in default");
         return cardToReturn;
     }
     private void CheckForConsecutive(List<Card> originalHand, List<Card> cards, 
@@ -135,107 +130,40 @@ public class CardBuilder
         }
         sameSuitCards = new List<Card>(temporaryCardHolder);
     }
-    private void CheckForPairs(List<Card> originalHand ,List<Card> combinedCards,
-        ref List<Card> pairsList)
+    private void CheckForPairs(List<Card> combinedCards, ref List<Card> pairsList)
     {
-        List<Card> temporaryHolder = new List<Card>(combinedCards);
-        List<Card> smallPairList = new List<Card>();
-        List<Card> bigPairList = new List<Card>();
-        foreach(var group in temporaryHolder.GroupBy(cards => cards.Value))
+        List<Card> temporaryCombinedHolder = new List<Card>(combinedCards);
+        List<Card> temporaryHolder = new List<Card>();
+        foreach(var group in combinedCards.GroupBy(cards => cards.Value))
         {
-            if(group.Count() == 2)
+            if(group.Count() >= 2)
             {
-                smallPairList.AddRange(group.ToList());
-            }
-            if(group.Count() >= 3)
-            {
-                if(bigPairList.Count == 0)
-                {
-                    bigPairList.AddRange(group.ToList());
-                }
+                temporaryHolder.AddRange(group.ToList());
             }
         }
-        if(bigPairList.Count > 0)
+        if(temporaryHolder.Count > 0)
         {
-            for(int i = 0; i < bigPairList.Count; i++) //-1
+            for(int i = 0; i < temporaryHolder.Count; i++)
             {
-                temporaryHolder.Remove(bigPairList[i]); 
-            }
-            pairsList.AddRange(bigPairList);
-        }
-        ChangeListToDescendingByValue(ref smallPairList);
-        ChangeListToDescendingByPairs(ref smallPairList);
-
-        // for(int i = 0; i < smallPairList.Count; i++)
-        // {
-        //     Debug.Log("value: " + smallPairList[i].Value + " Suit: " 
-        //         + smallPairList[i].Suit);
-        // }
-        
-        //TODO: do some foreac
-
-        if(smallPairList.Count > 0)
-        {
-            if((pairsList.Count + 2) > 5)
-            {
-                return;
-            }
-            if(pairsList.Contains(originalHand[0]) ||
-                pairsList.Contains(originalHand[1]))
-            {
-                return;
-            }
-            Debug.Log("small pair count: " + smallPairList.Count);
-            for(int i = 0; i < originalHand.Count; i++)
-            {
-                for(int j = 0; j < smallPairList.Count; j++)
+                if(pairsList.Count < 5)
                 {
-                    // Debug.Log("j : " + j);
-                    // Debug.Log("adding: " + smallPairList[j].Value +
-                    //     " " + smallPairList[j].Suit);
-                    if(pairsList.Count == 5)
-                    {
-                        break;
-                    }
-                    if(smallPairList[j].Value == originalHand[i].Value)
-                    {
-                        //Debug.Log("should be added");
-                        if(!pairsList.Contains(smallPairList[j]))
-                        {
-                            Debug.Log("adding: " + smallPairList[j].Value +
-                             " " + smallPairList[j].Suit);
-                            //temporaryHolder.Remove(smallPairList[j]);
-                            pairsList.Add(smallPairList[j]);
-                        }
-                    }
+                    temporaryCombinedHolder.Remove(temporaryHolder[i]);
+                    pairsList.Add(temporaryHolder[i]);
                 }
-                if(pairsList.Count == 5)
+                if(pairsList.Count >= 5)
                 {
                     break;
                 }
             }
-        }
-        if(pairsList.Count > 0)
-        {
-            ChangeListToDescendingByValue(ref temporaryHolder);
-            ChangeListToDescendingByPairs(ref temporaryHolder);
-            if(pairsList.Count < 5)
+            for(int i = 0; i < temporaryCombinedHolder.Count; i++)
             {
-                for(int i = pairsList.Count - 1; i < 5; i++)
+                if(pairsList.Count < 5)
                 {
-                    Debug.Log("add few things");
-                    pairsList.Add(temporaryHolder[i]);
+                    pairsList.Add(temporaryCombinedHolder[i]);
                 }
             }
+            ChangeListToDescendingByValue(ref pairsList);
             ChangeListToDescendingByPairs(ref pairsList);
-
-            if(!pairsList.Contains(originalHand[0]) &&
-                !pairsList.Contains(originalHand[1]))
-            {
-                Debug.Log("added final touch");
-                pairsList.RemoveAt(pairsList.Count - 1);
-                pairsList.Add(originalHand[0]);
-            }
         }
     }
     private void ChangeListToDescendingByValue(ref List<Card> cardsList)
