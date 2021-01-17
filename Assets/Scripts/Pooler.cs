@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 public class Pooler : MonoBehaviour
 {
     [SerializeField] private GameObject m_prefabToClone = null;
@@ -9,6 +9,8 @@ public class Pooler : MonoBehaviour
     private Queue<GameObject> m_queueClones = new Queue<GameObject>();
     private List<GameObject> m_releaseCloneList = new List<GameObject>();
     
+    public Action OnClearPooler;
+
     #region UNITY METHODS
     private void Start()
     {
@@ -43,18 +45,17 @@ public class Pooler : MonoBehaviour
     }
     public void ReturnAllClone()
     {
-        if(m_releaseCloneList.Count <= 0)
-            return;
-        
-        for(int i = 0; i < m_releaseCloneList.Count; i++)
+        if(m_releaseCloneList.Count > 0)
         {
-            ResetCloneTransform(m_releaseCloneList[i].transform);
-            m_releaseCloneList[i].SetActive(false);
-            m_queueClones.Enqueue(m_releaseCloneList[i]);
-            m_releaseCloneList.Remove(m_releaseCloneList[i]);
-            continue;
+            for(int i = 0; i < m_releaseCloneList.Count; i++)
+            {
+                ResetCloneTransform(m_releaseCloneList[i].transform);
+                m_releaseCloneList[i].SetActive(false);
+                m_queueClones.Enqueue(m_releaseCloneList[i]);
+            }
+            m_releaseCloneList.Clear();
         }
-        m_releaseCloneList.Clear();
+        OnClearPooler?.Invoke();
     }
     private void ResetCloneTransform(Transform cloneTransform)
     {

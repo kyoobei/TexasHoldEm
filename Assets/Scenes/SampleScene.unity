@@ -2331,6 +2331,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c61bc4163da54124084ef18538c6f3f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_pooler: {fileID: 2136412153}
   panelUIResult: {fileID: 1546790960}
   btnPlayButton: {fileID: 1466459594}
   txtPlayerLogs:

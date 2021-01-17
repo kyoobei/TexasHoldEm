@@ -5,12 +5,24 @@ using System;
 public class GameUIController : MonoBehaviour, IController
 {
     public Action OnPressedStartGame;
-
+    [SerializeField] private Pooler m_pooler = null;
     [SerializeField] private GameObject panelUIResult = null;
     [SerializeField] private Button btnPlayButton = null;
     [SerializeField] private List<Text> txtPlayerLogs = new List<Text>();
     [SerializeField] private Text txtResult = null;
+    private void OnEnable()
+    {
+        m_pooler.OnClearPooler += StartGame;
+    }
+    private void OnDisable()
+    {
+        m_pooler.OnClearPooler -= StartGame;
+    }
     public void StartController()
+    {
+        m_pooler.ReturnAllClone();     
+    }
+    public void StartGame()
     {
         OnPressedStartGame?.Invoke();
     }
