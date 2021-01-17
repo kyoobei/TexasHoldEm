@@ -11,10 +11,14 @@ public class EventController : MonoBehaviour
     private void OnEnable()
     {
         m_gameUIController.OnPressedStartGame += m_cardController.StartController;
+        m_cardController.OnAcquirePlayerHands += m_gameUIController.UpdatePlayerLogs;
+        m_cardController.OnAcquireWinner += m_gameUIController.ShowResultScreen;
     }
     private void OnDisable()
     {
         m_gameUIController.OnPressedStartGame -= m_cardController.StartController;
+        m_cardController.OnAcquirePlayerHands -= m_gameUIController.UpdatePlayerLogs;
+        m_cardController.OnAcquireWinner -= m_gameUIController.ShowResultScreen;
     }
     #endregion
 }

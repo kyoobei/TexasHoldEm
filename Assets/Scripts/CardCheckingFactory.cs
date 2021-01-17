@@ -2,7 +2,6 @@ using System.Collections.Generic;
 public class CardCheckingFactory
 {    
     private List<Rule> m_rulesList;
-    
     public CardCheckingFactory()
     {
         m_rulesList = new List<Rule>()
@@ -18,7 +17,6 @@ public class CardCheckingFactory
             new OnePair()
         };
     }
-
     public Hand GetCardHand(List<Card> cardCombination)
     {
         Hand currentHand = Hand.HIGH_CARD;
