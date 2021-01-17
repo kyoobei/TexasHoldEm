@@ -2338,6 +2338,7 @@ MonoBehaviour:
   - {fileID: 1000036065}
   - {fileID: 1952899767}
   txtResult: {fileID: 1450779781}
+  m_showDelay: 1.5
 --- !u!4 &2105935446
 Transform:
   m_ObjectHideFlags: 0

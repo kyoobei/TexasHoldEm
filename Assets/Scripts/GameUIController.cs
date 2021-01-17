@@ -10,6 +10,8 @@ public class GameUIController : MonoBehaviour, IController
     [SerializeField] private Button btnPlayButton = null;
     [SerializeField] private List<Text> txtPlayerLogs = new List<Text>();
     [SerializeField] private Text txtResult = null;
+    [SerializeField] private float m_showDelay = 0.0f;
+    private string m_result = string.Empty;
     private void OnEnable()
     {
         m_pooler.OnClearPooler += StartGame;
@@ -35,9 +37,14 @@ public class GameUIController : MonoBehaviour, IController
             txtPlayerLogs[i].text = string.Format($"{playerName[i]} has {playerHandsName}");
         }
     }
-    public void ShowResultScreen(string result)
+    public void StartDelayShowResult(string result)
     {
-        txtResult.text = result;
+        m_result = result;
+        Invoke("ShowResultScreen", m_showDelay);
+    }
+    private void ShowResultScreen()
+    {
+        txtResult.text = m_result;
         panelUIResult.gameObject.SetActive(true);
         btnPlayButton.gameObject.SetActive(true);
     }
