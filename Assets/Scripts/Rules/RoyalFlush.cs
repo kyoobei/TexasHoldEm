@@ -11,7 +11,7 @@ public class RoyalFlush : Rule
     {
         if(straightFlush.ContainsHand(cardList))
         {
-            if(cardList[0].Value == (int)HighCard.Ace)
+            if(cardList[0].Value == (int)FaceCard.Ace)
             {
                 return true;
             }

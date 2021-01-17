@@ -17,6 +17,7 @@ public class CardHand
     public Hand GetHandType(List<Card> cardAtHand, List<Card> cardAtTable)
     {
         m_combineCards = m_cardBuilder.Build(cardAtHand, cardAtTable);
+        Debug.Log("my hand: " + m_cardCheckingFactory.GetCardHand(m_combineCards).ToString());
         // winningCardList.Clear();
         // m_combineCards = new List<Card>();
         // m_originalCards = new List<Card>(originalHand);

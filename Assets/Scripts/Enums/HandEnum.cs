@@ -1,6 +1,6 @@
 public enum Hand
 {
-    HIGH_CARD,
+    HIGH_CARD = 0,
     ONE_PAIR,
     TWO_PAIR,
     THREE_OF_A_KIND,

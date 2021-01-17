@@ -4,7 +4,7 @@ public class CardBuilder
 {
     public List<Card> Build(List<Card> cardAtHand, List<Card> cardAtTable)
     {
-        List<Card> cardToReturn = new List<Card>();
+        List<Card> defaultCardList = new List<Card>();
         List<Card> combinedCards = new List<Card>();
 
         List<Card> consecutiveCardList = new List<Card>();
@@ -32,7 +32,11 @@ public class CardBuilder
         {
             return pairsCardList;
         }
-        return cardToReturn;
+        for(int i = 0; i < 5; i++)
+        {
+            defaultCardList.Add(combinedCards[i]);
+        }
+        return defaultCardList;
     }
     private void CheckForConsecutive(List<Card> originalHand, List<Card> cards, 
         ref List<Card> consecutiveCards)

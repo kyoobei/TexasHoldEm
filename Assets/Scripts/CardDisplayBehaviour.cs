@@ -9,13 +9,13 @@ public class CardDisplayBehaviour : MonoBehaviour
 
     public void UpdateCardDisplay(int cardValue, int cardSuit)
     {
-        if(cardValue < (int)HighCard.Jack)
+        if(cardValue < (int)FaceCard.Jack)
         {
             m_suitValueText.text = (cardValue + 1).ToString();
         }
-        else if(cardValue >= (int)HighCard.Jack)
+        else if(cardValue >= (int)FaceCard.Jack)
         {
-            m_suitValueText.text = (((HighCard)cardValue).ToString())[0].ToString();
+            m_suitValueText.text = (((FaceCard)cardValue).ToString())[0].ToString();
         }
         m_suitRenderer.sharedMaterial = m_suitsMaterialList[cardSuit];
     }

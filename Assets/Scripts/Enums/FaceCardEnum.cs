@@ -1,4 +1,4 @@
-public enum HighCard
+public enum FaceCard
 {
     Jack = 10,
     Queen = 11,
