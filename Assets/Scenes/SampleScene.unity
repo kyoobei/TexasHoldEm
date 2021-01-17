@@ -2333,6 +2333,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_pooler: {fileID: 2136412153}
   panelUIResult: {fileID: 1546790960}
+  m_particleEffect: {fileID: 2468269635797386936, guid: c355a7d85ade0664db555814a59d2de4, type: 3}
   btnPlayButton: {fileID: 1466459594}
   txtPlayerLogs:
   - {fileID: 1000036065}

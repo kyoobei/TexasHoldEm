@@ -7,6 +7,7 @@ public class GameUIController : MonoBehaviour, IController
     public Action OnPressedStartGame;
     [SerializeField] private Pooler m_pooler = null;
     [SerializeField] private GameObject panelUIResult = null;
+    [SerializeField] private GameObject m_particleEffect = null;
     [SerializeField] private Button btnPlayButton = null;
     [SerializeField] private List<Text> txtPlayerLogs = new List<Text>();
     [SerializeField] private Text txtResult = null;
@@ -44,6 +45,10 @@ public class GameUIController : MonoBehaviour, IController
     }
     private void ShowResultScreen()
     {
+        GameObject particlePrefab = Instantiate(m_particleEffect, 
+            Vector3.zero, Quaternion.identity);
+        Destroy(particlePrefab, 1.5f);
+        
         txtResult.text = m_result;
         panelUIResult.gameObject.SetActive(true);
         btnPlayButton.gameObject.SetActive(true);
